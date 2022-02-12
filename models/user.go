@@ -2,19 +2,19 @@ package models
 
 import (
 	"encoding/json"
-	"fenv-eats/internal/utils"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	Id        string     `json:"id" gorm:"not null; primary_key; comment:'用户ID';type:CHAR(36)"`
-	Name      string     `json:"name" gorm:"not null; comment:'姓名'; type:VARCHAR(255)"`
-	Email     string     `json:"email" gorm:"not null; comment:'邮箱'; unique_index:idx_user_email; type:VARCHAR(255)"`
-	Password  string     `json:"-" gorm:"not null; comment:'密码'; type:VARCHAR(255)"`
-	Manager   bool       `json:"manager" gorm:"not null; default 0; comment:'管理员'; type:TINYINT(1)"`
-	CreatedAt utils.Time `json:"created_time" gorm:"not null; comment:'创建于'; type:DATETIME"`
-	UpdatedAt utils.Time `json:"updated_time" gorm:"not null; comment:'更新于'; type:DATETIME"`
+	Id        string    `json:"id" gorm:"not null; primary_key; comment:'用户ID';type:CHAR(36)"`
+	Name      string    `json:"name" gorm:"not null; comment:'姓名'; type:VARCHAR(255)"`
+	Email     string    `json:"email" gorm:"not null; comment:'邮箱'; unique_index:idx_user_email; type:VARCHAR(255)"`
+	Password  string    `json:"-" gorm:"not null; comment:'密码'; type:VARCHAR(255)"`
+	Manager   bool      `json:"manager" gorm:"not null; default 0; comment:'管理员'; type:TINYINT(1)"`
+	CreatedAt time.Time `json:"created_time" gorm:"column:created_at;not null; comment:'创建于'; type:DATETIME"`
+	UpdatedAt time.Time `json:"updated_time" gorm:"column:updated_at;not null; comment:'更新于'; type:DATETIME"`
 }
 
 // Define table name
@@ -35,17 +35,17 @@ func ValidatePassword(password string, hashed []byte) (bool, error) {
 
 // 更新用户信息
 func (user *User) Update() error {
-	_, err := Engine.Id(user.Id).Update(user)
+	err := Engine.Model(user).Updates(user).Error
 	return err
 }
 
 func (user *User) Store() error {
-	_, err := Engine.Insert(user)
+	err := Engine.Create(user).Error
 	return err
 }
 
 func (user *User) Save() error {
-	_, err := Engine.Id(user.Id).Update(&user)
+	err := Engine.Model(user).Updates(user).Error
 	return err
 }
 

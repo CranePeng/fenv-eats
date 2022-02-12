@@ -43,6 +43,10 @@ type (
 	App struct {
 		Mode string `json:"mode" yaml:"mode" `
 	}
+	Docker struct {
+		MysqlIp string   `json:"mysqlIp" yaml:"mysqlIp" `
+		EtcdIp  []string `json:"etcdIp" yaml:"etcdIp"`
+	}
 	Config struct {
 		*Database     `json:"database"`
 		*Auth         `json:"auth"`
@@ -53,11 +57,13 @@ type (
 )
 
 var (
-	Conf *Config
-	Path string
+	Conf       *Config
+	Path       string
+	DockerConf *Docker
 )
 
 func Init() *Config {
+	DockerConf = &Docker{}
 	return &Config{}
 }
 

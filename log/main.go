@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	logPath     = "./log"
+	logPath     = "./logs"
 	logFile     = "cfn-fenv.log"
 	Instance    *logrus.Logger
 	logInitOnce sync.Once

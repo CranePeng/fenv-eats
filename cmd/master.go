@@ -3,18 +3,12 @@ package cmd
 import (
 	"context"
 	"fenv-eats/config"
-	"fenv-eats/internal/discover"
 	"fenv-eats/internal/service"
-	"fenv-eats/internal/utils"
 	fenvLog "fenv-eats/log"
 	"fenv-eats/models"
-	"fmt"
 	"github.com/satori/go.uuid"
 	"github.com/spf13/cobra"
-	"log"
-	"os"
 	"runtime"
-	"time"
 )
 
 // masterCmd represents the master command
@@ -24,9 +18,9 @@ var (
 		Short: "Run a master node service",
 		Long:  "Run a master node service on this server",
 		Run: func(cmd *cobra.Command, args []string) {
-			bootstrap()
-			watch()
-			start()
+			//bootstrap()
+			//watch()
+			//start()
 		},
 	}
 

@@ -25,8 +25,12 @@ var (
 
 // New ETCD V3 Client
 func NewClient() {
+	etcdPoints := config.Conf.Etcd.EndPoints
+	if config.DockerConf.EtcdIp != nil && len(config.DockerConf.EtcdIp) > 0 {
+		etcdPoints = config.DockerConf.EtcdIp
+	}
 	if Client, err = clientV3.New(clientV3.Config{
-		Endpoints:   config.Conf.Etcd.EndPoints,
+		Endpoints:   etcdPoints,
 		DialTimeout: 10 * time.Second,
 	}); err != nil {
 		log.Println(err)

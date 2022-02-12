@@ -6,9 +6,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:     "eats",
-	Short:   "Eats",
-	Long:    "Elastic Automatic Task System",
+	Use:     "Eagle",
+	Short:   "Eagle",
+	Long:    "Eagle:Elastic Automatic Task System",
 	Version: "0.1",
 }
 

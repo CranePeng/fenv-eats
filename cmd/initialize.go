@@ -50,10 +50,10 @@ var (
 	path string
 
 	user = &models.User{
-		Id:         uuid.NewV4().String(),
-		Manager:    true,
-		CreateTime: utils.Time(time.Now()),
-		UpdateTime: utils.Time(time.Now()),
+		Id:        uuid.NewV4().String(),
+		Manager:   true,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 )
 
@@ -69,9 +69,14 @@ func init() {
 	initializeCmd.Flags().StringVarP(&user.Name, "name", "n", "", "Set admin name")
 	initializeCmd.Flags().StringVarP(&user.Email, "email", "e", "", "Set admin email")
 	initializeCmd.Flags().StringVarP(&user.Password, "pass", "P", "", "Set admin pass")
+	initializeCmd.Flags().StringVarP(&config.DockerConf.MysqlIp, "mysqlIp", "q", "127.0.0.1", "Set docker mysql ip address")
+	initializeCmd.Flags().StringSliceVar(&config.DockerConf.EtcdIp, "etcdIp", []string{"127.0.0.1:2379"}, "Set etcd points address")
 
 }
 
+/**
+这种方式其实不好部署，建议初始化改为全命令执行
+*/
 func startInitializeWeb() {
 	app := gin.New()
 	app.Use(gin.Recovery())
@@ -142,8 +147,8 @@ func initDatabase() {
 
 	pass, err := models.GeneratePassword(user.Password)
 	user.Password = string(pass)
-
-	if _, err := models.Engine.Insert(user); err != nil {
+	createErr := models.Engine.Create(user).Error
+	if createErr != nil {
 		log.Fatal("Failed to create system manager", err)
 	}
 }

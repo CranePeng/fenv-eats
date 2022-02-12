@@ -3,6 +3,7 @@ package pool
 import (
 	"fenv-eats/log"
 	"github.com/panjf2000/ants/v2"
+	"runtime"
 )
 
 /*
@@ -14,7 +15,7 @@ var (
 )
 
 func Init() {
-	workPool, err := ants.NewPool(1000)
+	workPool, err := ants.NewPool(runtime.NumCPU() * 20)
 	if err != nil {
 		log.ErrorF("初始化协程池失败：%v", err)
 	}
