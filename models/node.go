@@ -1,9 +1,5 @@
 package models
 
-import (
-	"time"
-)
-
 const (
 	ONLINE  = "online"
 	OFFLINE = "offline"
@@ -21,9 +17,8 @@ type (
 		Status      string               `json:"status" gorm:"not null; default 'connected'; comment:'状态'; type:VARCHAR(255)"` // 状态
 		Version     string               `json:"version" gorm:"not null; comment:'版本'; type:VARCHAR(255)"`                     // 版本
 		Description string               `json:"description" gorm:"comment:'描述'; type:VARCHAR(255)"`                           // 描述信息
-		CreatedAt   time.Time            `json:"created_at" gorm:"not null; comment:'创建于'; type:DATETIME"`                     // 创建于
-		UpdatedAt   time.Time            `json:"updated_at" gorm:"not null; comment:'更新于'; type:DATETIME"`                     // 更新于
 		Pipelines   []*PipelineNodePivot `json:"pipelines" gorm:"-"`                                                           // 关联的流水线
+		CommonColumn
 	}
 )
 

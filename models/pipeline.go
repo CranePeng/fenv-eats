@@ -15,14 +15,13 @@ type Pipeline struct {
 	Finished     string               `json:"finished" validate:"omitempty,uuid4" gorm:"null; comment:'成功时执行'; type:CHAR(36)"`
 	Failed       string               `json:"failed" validate:"omitempty,uuid4" gorm:"null; comment:'失败时执行'; type:CHAR(36)"`
 	Overlap      int                  `json:"overlap" validate:"numeric" gorm:"not null; default 0 comment:'重复执行'; type:TINYINT(1)"`
-	CreatedAt    time.Time            `json:"created_at" validate:"-" gorm:"not null; comment:'创建于'; type:DATETIME"`
-	UpdatedAt    time.Time            `json:"updated_at" validate:"-" gorm:"not null; comment:'更新于'; type:DATETIME"`
 	Nodes        []string             `json:"nodes" gorm:"-"`
 	Steps        []*PipelineTaskPivot `json:"steps" gorm:"-"`
 	Expression   *cronexpr.Expression `json:"-" gorm:"-"`
 	NextTime     time.Time            `json:"-" gorm:"-"`
 	FinishedTask *Task                `json:"finished_task,omitempty" gorm:"-"`
 	FailedTask   *Task                `json:"failed_task,omitempty" gorm:"-"`
+	CommonColumn
 }
 
 // 定义模型的数据表名称

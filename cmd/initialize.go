@@ -18,7 +18,6 @@ import (
 	"os"
 	"runtime"
 	"sync"
-	"time"
 )
 
 // installCmd represents the installed command
@@ -50,10 +49,8 @@ var (
 	path string
 
 	user = &models.User{
-		Id:        uuid.NewV4().String(),
-		Manager:   true,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		Id:      uuid.NewV4().String(),
+		Manager: true,
 	}
 )
 

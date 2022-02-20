@@ -26,6 +26,13 @@ type (
 		Update() error
 		ToString() (string, error)
 	}
+
+	// gorm.Model 的定义
+	CommonColumn struct {
+		CreatedAt time.Time      `json:"created_time" gorm:"column:created_at;not null; comment:'创建于'; type:DATETIME"`
+		UpdatedAt time.Time      `json:"updated_time" gorm:"column:updated_at;not null; comment:'更新于'; type:DATETIME"`
+		DeletedAt gorm.DeletedAt `json:"deleted_time" gorm:"index;comment:'删除时间'"`
+	}
 )
 
 const DefaultTimeFormat = "2006-01-02 15:04:05"

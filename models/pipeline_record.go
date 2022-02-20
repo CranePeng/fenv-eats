@@ -16,9 +16,8 @@ type (
 		Duration   int64          `json:"duration" gorm:"not null; comment:'持续时间';type: INT(10)"`
 		BeginWith  time.Time      `json:"begin_with" gorm:"not null; comment:'开始于';type: DATETIME"`
 		FinishWith time.Time      `json:"finish_with" gorm:"not null; comment:'结束于';type: DATETIME"`
-		CreatedAt  time.Time      `json:"created_at" validate:"-" gorm:"not null; comment:'创建于';type: DATETIME"`
-		UpdatedAt  time.Time      `json:"updated_at" validate:"-" gorm:"not null; comment:'更新于';type: DATETIME"`
 		Steps      []*TaskRecords `json:"steps" gorm:"-"`
+		CommonColumn
 	}
 	// 流水线执行结果
 	Result struct {

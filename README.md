@@ -37,9 +37,14 @@ go get github.com/go-playground/validator/v10
 
 // etcd 作为注册中心和服务发现中间件
 go get go.etcd.io/etcd/client/v3
+go get github.com/coreos/etcd/clientv3
 
 // 协程池
 go get -u github.com/panjf2000/ants/v2
+
+// 自研中间件（链路追踪相关）
+go get github.com/CranePeng/fenv-middleware
+
 ```
 
 # 启动 MySQL
