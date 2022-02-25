@@ -1,8 +1,10 @@
-# fenv-eagle
+# [fenv-eagle](https://github.com/CranePeng/fenv-eats)
 
 > eagle，全称：elastic automatic task system (eats) 是分布式任务调度中心，前身参考 [ects](https://betterde.github.io/ects/) ,在此框架设计基础上补全了追踪和资源回收优化
 > ，不同于ects的是，eagle采用了gin+gorm+redis，补全了协程池和任务监控，于是改名成了eagle
 
+    体验地址: demo.fenv.top  409716474@qq.com/wudidehe@678
+    由于前端没人搞，只能用前作者的前端页面应付一下（所以很多页面功能有问题，但是整体体验流程可以保证）
 
 ```go
 // 依赖包
