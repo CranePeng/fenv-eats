@@ -20,3 +20,21 @@ type PipelineTaskPivot struct {
 func (pivot *PipelineTaskPivot) TableName() string {
 	return "pipeline_task_pivot"
 }
+
+// 创建
+func (pivot *PipelineTaskPivot) Create() error {
+	err := Engine.Create(pivot).Error
+	return err
+}
+
+// 更新
+func (pivot *PipelineTaskPivot) Update() int {
+	i := Engine.Model(pivot).Updates(pivot).RowsAffected
+	return int(i)
+}
+
+// 软删除
+func (pivot *PipelineTaskPivot) Delete() error {
+	err := Engine.Delete(pivot).Error
+	return err
+}

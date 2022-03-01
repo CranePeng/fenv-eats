@@ -12,3 +12,9 @@ type Log struct {
 func (log *Log) TableName() string {
 	return "logs"
 }
+
+// 保存日志
+func (log *Log) Create() error {
+	err := Engine.Create(log).Error
+	return err
+}

@@ -12,3 +12,21 @@ type PipelineNodePivot struct {
 func (pivot *PipelineNodePivot) TableName() string {
 	return "pipeline_node_pivot"
 }
+
+// 创建关联
+func (pivot *PipelineNodePivot) Create() error {
+	err := Engine.Create(pivot).Error
+	return err
+}
+
+// 更新
+func (pivot *PipelineNodePivot) Update() int {
+	i := Engine.Model(pivot).Updates(pivot).RowsAffected
+	return int(i)
+}
+
+// 解除关联
+func (pivot *PipelineNodePivot) Delete() error {
+	err := Engine.Delete(pivot).Error
+	return err
+}

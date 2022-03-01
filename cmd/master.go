@@ -7,13 +7,18 @@ import (
 	"fenv-eats/internal/pool"
 	"fenv-eats/internal/service"
 	"fenv-eats/models"
-	"github.com/CranePeng/fenv-middleware/utils/common"
-	l "github.com/CranePeng/fenv-middleware/utils/logger"
+	"fenv-eats/routes"
+	"github.com/gin-gonic/gin"
 	"github.com/satori/go.uuid"
 	"github.com/spf13/cobra"
 	"log"
-	a "path"
+	"net/http"
+	"os"
+	"os/signal"
 	"runtime"
+	"strconv"
+	"syscall"
+	"time"
 )
 
 // masterCmd represents the master command
@@ -36,7 +41,6 @@ var (
 	}
 
 	ctx, cancelFunc = context.WithCancel(context.Background())
-	logger          l.Interface
 )
 
 func init() {
@@ -52,19 +56,6 @@ func init() {
 	masterCmd.Flags().StringVar(&master.Description, "desc", "master node", "Set master node description")
 	masterCmd.Flags().StringVar(&service.ConfigKey, "config", "/eagle/config", "Set the key used to get configuration information")
 	masterCmd.Flags().StringVar(&config.DockerConf.MysqlIp, "mysql", "127.0.0.1", "master mysql ip")
-	// 初始化自定义日志(业务日志)
-	logger = initMasterLog()
-	// 初始化协程池
-	pool.Init()
-}
-
-func initMasterLog() l.Interface {
-	x := common.GetCurrentAbPath()
-	x, _ = a.Split(x)
-	x = a.Join(x, "logs")
-	conf := l.Config{Ctx: context.TODO(), LogLevel: l.Info, CreateFile: true, LogPath: x}
-	ll := l.New(conf)
-	return ll
 }
 
 func bootstrap() {
@@ -79,8 +70,11 @@ func bootstrap() {
 }
 
 func watch() {
-	err := pool.Work(func() {
-		discover.ServiceCluster.WatchNodes(ctx, master.Id)
+	err := pool.GetWorkerInstance().Work(func() {
+		cluster := &discover.Cluster{
+			Client: discover.Client,
+		}
+		cluster.WatchNodes(ctx, master.Id)
 	})
 	if err != nil {
 		return
@@ -88,5 +82,35 @@ func watch() {
 }
 
 func start() {
+	g := gin.New()
+	g = routes.Init(g)
+
+	server := &http.Server{
+		Addr:    ":" + strconv.Itoa(master.Port),
+		Handler: g,
+	}
+	go func() {
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("server listen err:%s", err)
+		}
+	}()
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+
+	// 在此阻塞
+	<-quit
+
+	ctx, channelCancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer channelCancel()
+
+	// 当主节点关闭时，先检查是否有其他在线主节点
+
+	// 关闭主节点的上下文
+	cancelFunc()
+	if err := server.Shutdown(ctx); err != nil {
+		log.Fatal("server shutdown error")
+	}
+	log.Println("server exiting...")
 
 }

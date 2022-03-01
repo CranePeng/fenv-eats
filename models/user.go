@@ -11,6 +11,7 @@ type User struct {
 	Email    string `json:"email" gorm:"not null; comment:'邮箱'; unique_index:idx_user_email; type:VARCHAR(255)"`
 	Password string `json:"-" gorm:"not null; comment:'密码'; type:VARCHAR(255)"`
 	Manager  bool   `json:"manager" gorm:"not null; default 0; comment:'管理员'; type:TINYINT(1)"`
+	Mobile   string `json:"mobile" gorm:"null; comment:'手机号'; unique_index:idx_user_mobile; type:bigint"`
 	CommonColumn
 }
 
@@ -36,7 +37,7 @@ func (user *User) Update() error {
 	return err
 }
 
-func (user *User) Store() error {
+func (user *User) Create() error {
 	err := Engine.Create(user).Error
 	return err
 }

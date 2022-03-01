@@ -27,3 +27,21 @@ type TaskRecords struct {
 func (records *TaskRecords) TableName() string {
 	return "task_records"
 }
+
+// 创建
+func (records *TaskRecords) Create() error {
+	err := Engine.Create(records).Error
+	return err
+}
+
+// 更新
+func (records *TaskRecords) Update() int {
+	i := Engine.Model(records).Updates(records).RowsAffected
+	return int(i)
+}
+
+// 软删除
+func (records *TaskRecords) Delete() error {
+	err := Engine.Delete(records).Error
+	return err
+}

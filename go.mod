@@ -19,9 +19,10 @@ require (
 )
 
 require (
-	github.com/CranePeng/fenv-middleware v0.0.0-20220219082337-bdb4d33803e7 // indirect
+	github.com/CranePeng/fenv-middleware v0.0.0-20220220074342-74e2283731ad // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect

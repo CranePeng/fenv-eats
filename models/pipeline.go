@@ -28,3 +28,21 @@ type Pipeline struct {
 func (pipeline *Pipeline) TableName() string {
 	return "pipelines"
 }
+
+// 创建关联
+func (pipeline *Pipeline) Create() error {
+	err := Engine.Create(pipeline).Error
+	return err
+}
+
+// 更新
+func (pipeline *Pipeline) Update() int {
+	i := Engine.Model(pipeline).Updates(pipeline).RowsAffected
+	return int(i)
+}
+
+// 解除关联
+func (pipeline *Pipeline) Delete() error {
+	err := Engine.Delete(pipeline).Error
+	return err
+}

@@ -1,5 +1,7 @@
 package models
 
+import "errors"
+
 const (
 	ONLINE  = "online"
 	OFFLINE = "offline"
@@ -25,4 +27,45 @@ type (
 // 定义模型的数据表名称
 func (node *Node) TableName() string {
 	return "nodes"
+}
+
+// 创建
+func (node *Node) Create() error {
+	err := Engine.Create(node).Error
+	return err
+}
+
+// 更新
+func (node *Node) Update() error {
+	i := Engine.Model(node).Updates(node).RowsAffected
+	if i > 0 {
+		return nil
+
+	}
+	return errors.New("更新失败")
+}
+
+// 软删除
+func (node *Node) Delete() error {
+	err := Engine.Delete(node).Error
+	return err
+}
+
+// 更新状态为在线
+func (node *Node) Online() {
+
+}
+
+// 更新状态为离线
+func (node *Node) Offline() {
+
+}
+
+func (node *Node) CreateOrUpdate() error {
+	return nil
+}
+
+// 序列化
+func (node *Node) ToString() (string, error) {
+	return "", nil
 }

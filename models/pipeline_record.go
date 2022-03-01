@@ -30,3 +30,21 @@ type (
 func (records *PipelineRecords) TableName() string {
 	return "pipeline_records"
 }
+
+// 创建
+func (records *PipelineRecords) Create() error {
+	err := Engine.Create(records).Error
+	return err
+}
+
+// 更新
+func (records *PipelineRecords) Update() int {
+	i := Engine.Model(records).Updates(records).RowsAffected
+	return int(i)
+}
+
+// 软删除
+func (records *PipelineRecords) Delete() error {
+	err := Engine.Delete(records).Error
+	return err
+}

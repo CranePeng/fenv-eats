@@ -48,11 +48,11 @@ type (
 		EtcdIp  []string `json:"etcdIp" yaml:"etcdIp"`
 	}
 	Config struct {
-		*Database     `json:"database"`
-		*Auth         `json:"auth"`
-		*Etcd         `json:"etcd"`
-		*Notification `json:"notification"`
-		*App          `json:"app"`
+		Database     `json:"database"`
+		Auth         `json:"auth"`
+		Etcd         `json:"etcd"`
+		Notification `json:"notification"`
+		App          `json:"app"`
 	}
 )
 

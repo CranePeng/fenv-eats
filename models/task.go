@@ -23,3 +23,21 @@ type Task struct {
 func (task *Task) TableName() string {
 	return "tasks"
 }
+
+// 创建
+func (task *Task) Create() error {
+	err := Engine.Create(task).Error
+	return err
+}
+
+// 更新
+func (task *Task) Update() int {
+	i := Engine.Model(task).Updates(task).RowsAffected
+	return int(i)
+}
+
+// 软删除
+func (task *Task) Delete() error {
+	err := Engine.Delete(task).Error
+	return err
+}
